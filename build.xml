@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="QuidcoShoop">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../Downloads/eclipse/"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <property name="jars" value="lib" />
+    <property name="cucumber-jvm.version" value="1.1.8" />
+            	<property name="cucumber-html.version" value="0.2.3" />
+            	<property name="cucumber-jvm-deps.version" value="1.0.3" />
+            	<property name="gherkin.version" value="2.12.2" />
+              	<property name="cucumber-picocontainer.version" value="1.1.8" />
+              	<property name="picocontainer" value="2.9" />
+    <path id="QuidcoShoop.classpath">
+        <pathelement location="bin"/>
+    </path>
+    <target name ="download">
+    	<mkdir dir="${jars}"/>
+    	<get src="http://repo1.maven.org/maven2/info/cukes/cucumber-core/${cucumber-jvm.version}/cucumber-core-${cucumber-jvm.version}.jar"
+        dest="${jars}/cucumber-core-${cucumber-jvm.version}.jar"/>
+   		<get src="http://repo1.maven.org/maven2/info/cukes/cucumber-java/${cucumber-jvm.version}/cucumber-java-${cucumber-jvm.version}.jar" dest="${jars}/cucumber-java-${cucumber-jvm.version}.jar"/>
+    	<get src="http://repo1.maven.org/maven2/info/cukes/cucumber-junit/${cucumber-jvm.version}/cucumber-junit-${cucumber-jvm.version}.jar"			             dest="${jars}/cucumber-junit-${cucumber-jvm.version}.jar"/>
+    	<get src="http://repo1.maven.org/maven2/info/cukes/cucumber-jvm-deps/${cucumber-jvm-deps.version}/cucumber-jvm-deps-${cucumber-jvm-deps.version}.jar"		             dest="${jars}/cucumber-jvm-deps-${cucumber-jvm-deps.version}.jar"/>
+        <get src="http://repo1.maven.org/maven2/info/cukes/gherkin/${gherkin.version}/gherkin-${gherkin.version}.jar"       dest="${jars}/gherkin-${gherkin.version}.jar"/>	
+    	<get src="http://repo1.maven.org/maven2/info/cukes/cucumber-html/${cucumber-html.version}/cucumber-html-${cucumber-html.version}.jar"
+    				             dest="${jars}/cucumber-html-${cucumber-html.version}.jar"/>
+    	<get src ="https://repo1.maven.org/maven2/junit/junit/4.9/junit-4.9.jar" dest="${jars}/junit-4.9.jar"/>
+    	<get src="http://repo1.maven.org/maven2/info/cukes/cucumber-picocontainer/1.1.8/cucumber-picocontainer-1.1.8.jar" dest="${jars}/cucumber-picocontainer-1.1.8.jar"/>
+   		<get src="http://repo.jenkins-ci.org/releases/org/seleniumhq/selenium/selenium-server-standalone/2.53.0/selenium-server-standalone-2.53.0.jar" dest="${jars}/selenium-server-standalone-2.53.0.jar" />
+    	<get src="http://repo1.maven.org/maven2/org/picocontainer/picocontainer/${picocontainer}/picocontainer-${picocontainer}.jar" dest="${jars}/picocontainer-${picocontainer}.jar"/>
+    </target>
+              	
+     <target name="classpath">
+            	<path id="classpath">
+              		  	 <fileset dir="${jars}">
+              			 <include name="*.jar"/>
+              	</fileset>
+              				
+              			<pathelement location="src/test/feature"/>
+              			<pathelement location="target/classes"/>
+              			<pathelement location="target/test-classes"/>
+              			</path>
+              		</target>
+        <target name="init" depends="download,classpath">
+        <mkdir dir="bin"/>
+        	
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/test/feature">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/test/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+    	<mkdir dir="target/classes"/>
+    			<javac srcdir="src/java" destdir="target/classes" classpathref="classpath" includeantruntime="false"/>
+    	<mkdir dir="target/test-classes"/>
+    			<javac srcdir="src/test/java" destdir="target/test-classes" classpathref="classpath" includeantruntime="false"/>
+    	<java classname="cucumber.api.cli.Main" fork="true" failonerror="false" resultproperty="cucumber.exitstatus">
+    				
+    				<classpath refid="classpath"/>
+    		        <arg value="--format"/>
+    					<arg value="pretty"/>
+    				<arg value="--format"/>
+    					<arg value="html:target/cucumber-html-report"/>
+    				<arg value="--format"/>
+    					<arg value="json:target/cucumber-report.json"/>
+
+    				<arg value="--glue"/>
+    					<arg value="cucumber.bdd"/>
+    					<arg value="src/test/feature"/>
+    			</java>
+    			<fail message="Cucumber failed">
+    			<condition>
+    			<not>
+    			<equals arg1="${cucumber.exitstatus}" arg2="0"/>
+    			</not>
+    			</condition>
+    			</fail>
+    	
+    	
+    	<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/test/feature"/>
+            <src path="src/java"/>
+            <src path="src/test/java"/>
+            <classpath refid="QuidcoShoop.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+</project>
