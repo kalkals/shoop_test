@@ -104,7 +104,7 @@ formatter.match({
   "location": "LoginSteps.i_visit_the_shoop_sign_in_page()"
 });
 formatter.result({
-  "duration": 4179056871,
+  "duration": 4250639314,
   "status": "passed"
 });
 formatter.match({
@@ -117,7 +117,7 @@ formatter.match({
   "location": "LoginSteps.i_try_to_login_with_valid_credentials(String)"
 });
 formatter.result({
-  "duration": 477782876,
+  "duration": 566989551,
   "status": "passed"
 });
 formatter.match({
@@ -130,12 +130,12 @@ formatter.match({
   "location": "LoginSteps.i_should_see_that_I_logged_in_successfully(String)"
 });
 formatter.result({
-  "duration": 97846,
+  "duration": 120884,
   "status": "passed"
 });
 formatter.embedding("image/png", "embedded0.png");
 formatter.after({
-  "duration": 1020155856,
+  "duration": 1044592006,
   "status": "passed"
 });
 formatter.scenario({
@@ -174,7 +174,7 @@ formatter.match({
   "location": "LoginSteps.i_visit_the_shoop_sign_in_page()"
 });
 formatter.result({
-  "duration": 518244051,
+  "duration": 513387493,
   "status": "passed"
 });
 formatter.match({
@@ -187,7 +187,7 @@ formatter.match({
   "location": "LoginSteps.i_try_to_login_with_valid_credentials(String)"
 });
 formatter.result({
-  "duration": 441928835,
+  "duration": 416490194,
   "status": "passed"
 });
 formatter.match({
@@ -200,12 +200,12 @@ formatter.match({
   "location": "LoginSteps.i_should_see_that_I_logged_in_successfully(String)"
 });
 formatter.result({
-  "duration": 104933,
+  "duration": 88993,
   "status": "passed"
 });
 formatter.embedding("image/png", "embedded1.png");
 formatter.after({
-  "duration": 198617441,
+  "duration": 236134822,
   "status": "passed"
 });
 });
